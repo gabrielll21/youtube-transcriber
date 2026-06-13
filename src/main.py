@@ -1,7 +1,14 @@
-from youtube import extrair_video_id
+from youtube import extrair_video_id, buscar_legenda
 
 url = input("Cole a URL do vídeo: ")
 
-video_id = extrair_video_id(url)
+try:
+    video_id = extrair_video_id(url)
 
-print(f"ID do vídeo: {video_id}")
+    legenda = buscar_legenda(video_id)
+
+    print("\n===== LEGENDA =====\n")
+    print(legenda)
+
+except Exception as e:
+    print(f"Erro: {e}")

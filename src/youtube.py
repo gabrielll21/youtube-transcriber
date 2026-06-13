@@ -1,5 +1,5 @@
 from urllib.parse import urlparse, parse_qs
-
+from youtube_transcript_api import YouTubeTranscriptApi
 
 def extrair_video_id(url: str) -> str:
     parsed = urlparse(url)
@@ -11,3 +11,14 @@ def extrair_video_id(url: str) -> str:
         return parse_qs(parsed.query)["v"][0]
 
     raise ValueError("URL inválida.")
+
+def buscar_legenda(video_id: str) -> str:
+
+    transcript = YouTubeTranscriptApi().fetch(video_id)
+
+    texto = ""
+
+    for trecho in transcript:
+        texto += trecho.text + " "
+
+    return texto.strip()
