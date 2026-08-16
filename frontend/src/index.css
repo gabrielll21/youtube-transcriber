@@ -2,8 +2,10 @@
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #111827;
-  background: #f3f4f6;
+  color: #0f172a;
+  background:
+    radial-gradient(circle at top, rgba(226, 232, 240, 0.9), transparent 42%),
+    #f8fafc;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -29,6 +31,12 @@ a {
   text-decoration: none;
 }
 
+button,
+input {
+  font: inherit;
+}
+
 ul {
   margin: 0;
+  padding: 0;
 }

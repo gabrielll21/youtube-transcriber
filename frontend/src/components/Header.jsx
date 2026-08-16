@@ -1,12 +1,15 @@
 function Header() {
   return (
-    <header className="app-header">
-      <div className="app-header__brand">
-        <span className="app-header__logo" aria-hidden="true">YT</span>
-        <div>
-          <p className="app-header__eyebrow">YouTube Transcriber</p>
-          <h1 className="app-header__title">Transcrição de vídeos em um fluxo simples</h1>
-        </div>
+    <header className="site-header">
+      <div className="site-header__inner">
+        <a className="site-brand" href="/" aria-label="YouTube Transcriber">
+          <span className="site-brand__mark" aria-hidden="true">YT</span>
+          <span className="site-brand__text">YouTube Transcriber</span>
+        </a>
+
+        <nav className="site-nav" aria-label="Navegação">
+          <a href="#extrair">Extrair legenda</a>
+        </nav>
       </div>
     </header>
   )

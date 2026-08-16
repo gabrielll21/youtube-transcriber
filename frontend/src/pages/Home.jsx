@@ -1,28 +1,27 @@
 import Header from '../components/Header.jsx'
 import Footer from '../components/Footer.jsx'
+import TranscriptForm from '../components/TranscriptForm.jsx'
+import FeatureList from '../components/FeatureList.jsx'
 
 function Home() {
   return (
-    <div className="app-shell">
+    <div className="page-shell">
       <Header />
 
-      <main className="app-main">
-        <section className="hero">
-          <h2>Base inicial do produto</h2>
-          <p>
-            Estrutura mínima criada para evoluir a interface do YouTube Transcriber com
-            componentes, páginas e serviços organizados.
-          </p>
-
-          <div className="hero__card">
-            <h3>Próximos passos</h3>
-            <ul>
-              <li>Formulário de envio de URL</li>
-              <li>Estado de processamento</li>
-              <li>Lista de transcrições geradas</li>
-            </ul>
+      <main className="page-main">
+        <section className="hero" aria-labelledby="hero-title">
+          <div className="hero__content">
+            <p className="hero__eyebrow">Extrair legenda de vídeos do YouTube</p>
+            <h1 id="hero-title">Cole a URL do vídeo e prepare a transcrição em segundos.</h1>
+            <p className="hero__subtitle">
+              Um ponto de entrada simples para obter a legenda de vídeos do YouTube sem ruído visual.
+            </p>
           </div>
+
+          <TranscriptForm />
         </section>
+
+        <FeatureList />
       </main>
 
       <Footer />

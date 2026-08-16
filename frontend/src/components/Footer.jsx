@@ -1,7 +1,12 @@
 function Footer() {
+  const year = new Date().getFullYear()
+
   return (
-    <footer className="app-footer">
-      <p>Frontend separado da CLI Python. Integração com backend será adicionada depois.</p>
+    <footer className="site-footer">
+      <div className="site-footer__inner">
+        <span>YouTube Transcriber</span>
+        <span>© {year}</span>
+      </div>
     </footer>
   )
 }
