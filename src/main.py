@@ -1,5 +1,9 @@
-from youtube import extrair_video_id, buscar_legenda, obter_titulo
-from file_manager import salvar_legenda
+try:
+    from youtube import extrair_video_id, buscar_legenda, obter_titulo
+    from file_manager import salvar_legenda
+except ImportError:  # pragma: no cover - supports package execution
+    from .youtube import extrair_video_id, buscar_legenda, obter_titulo
+    from .file_manager import salvar_legenda
 
 url = input("Cole a URL do vídeo: ")
 
