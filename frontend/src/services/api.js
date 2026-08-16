@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8000'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'https://youtube-transcriber-api-epb9a6fedterhgeu.eastus-01.azurewebsites.net'
 
 export class ApiError extends Error {
   constructor(message, status, detail) {
