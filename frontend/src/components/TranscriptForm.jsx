@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-function TranscriptForm() {
+function TranscriptForm({ onExtract, isProcessing }) {
   const [url, setUrl] = useState('')
   const [error, setError] = useState('')
 
@@ -13,6 +13,7 @@ function TranscriptForm() {
     }
 
     setError('')
+    onExtract(url)
   }
 
   return (
@@ -32,15 +33,18 @@ function TranscriptForm() {
           onChange={(event) => setUrl(event.target.value)}
           aria-invalid={Boolean(error)}
           aria-describedby={error ? 'youtube-url-error' : undefined}
+          disabled={isProcessing}
         />
-        <button type="submit">Extrair legenda</button>
+        <button type="submit" disabled={isProcessing} aria-busy={isProcessing}>
+          {isProcessing ? 'Extraindo legenda...' : 'Extrair legenda'}
+        </button>
       </div>
 
       {error ? (
-        <p className="transcript-form__error" id="youtube-url-error" role="alert">{error}</p>
-      ) : (
-        <p className="transcript-form__hint">A integração com o backend será conectada nesta etapa posterior.</p>
-      )}
+        <p className="transcript-form__error" id="youtube-url-error" role="alert">
+          {error}
+        </p>
+      ) : null}
     </form>
   )
 }
