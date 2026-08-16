@@ -1,48 +1,38 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import Header from '../components/Header.jsx'
 import Footer from '../components/Footer.jsx'
 import TranscriptForm from '../components/TranscriptForm.jsx'
 import FeatureList from '../components/FeatureList.jsx'
 import TranscriptResult from '../components/TranscriptResult.jsx'
-
-const PROCESSING_DELAY_MS = 1200
+import { ApiError, extractTranscript } from '../services/api.js'
 
 function Home() {
-  const [isProcessing, setIsProcessing] = useState(false)
-  const [showResult, setShowResult] = useState(false)
-  const [transcript, setTranscript] = useState('')
-  const timerRef = useRef(null)
+  const [status, setStatus] = useState('idle')
+  const [result, setResult] = useState(null)
+  const [errorMessage, setErrorMessage] = useState('')
 
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) {
-        window.clearTimeout(timerRef.current)
-      }
+
+  async function handleExtract(url) {
+    setStatus('loading')
+    setErrorMessage('')
+    setResult(null)
+
+    try {
+      const data = await extractTranscript(url)
+      setResult(data)
+      setStatus('success')
+    } catch (error) {
+      const message = error instanceof ApiError
+        ? error.message
+        : 'Não foi possível extrair a legenda agora. Tente novamente.'
+
+      setErrorMessage(message)
+      setStatus('error')
     }
-  }, [])
-
-  function handleExtract() {
-    if (timerRef.current) {
-      window.clearTimeout(timerRef.current)
-    }
-
-    setIsProcessing(true)
-    setShowResult(false)
-    setTranscript('')
-
-    timerRef.current = window.setTimeout(() => {
-      setIsProcessing(false)
-      setShowResult(true)
-    }, PROCESSING_DELAY_MS)
   }
 
-  function handleCopy() {
-    if (!transcript) return
-  }
-
-  function handleDownload() {
-    if (!transcript) return
-  }
+  const isLoading = status === 'loading'
+  const hasResult = status === 'success' && result
 
   return (
     <div className="page-shell">
@@ -58,15 +48,24 @@ function Home() {
             </p>
           </div>
 
-          <TranscriptForm onExtract={handleExtract} isProcessing={isProcessing} />
+          <TranscriptForm onExtract={handleExtract} isLoading={isLoading} />
+
+          {status === 'loading' ? (
+            <div className="transcript-status" aria-live="polite" role="status">
+              <span className="transcript-status__spinner" aria-hidden="true" />
+              <span>Buscando legenda no servidor...</span>
+            </div>
+          ) : null}
+
+          {status === 'error' ? (
+            <div className="transcript-status transcript-status--error" role="alert">
+              {errorMessage}
+            </div>
+          ) : null}
         </section>
 
-        {showResult ? (
-          <TranscriptResult
-            transcript={transcript}
-            onCopy={handleCopy}
-            onDownload={handleDownload}
-          />
+        {hasResult ? (
+          <TranscriptResult title={result.title} transcript={result.transcript} />
         ) : null}
 
         <FeatureList />

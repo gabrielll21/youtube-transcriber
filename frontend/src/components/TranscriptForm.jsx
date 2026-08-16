@@ -1,19 +1,28 @@
 import { useState } from 'react'
 
-function TranscriptForm({ onExtract, isProcessing }) {
+function TranscriptForm({ onExtract, isLoading }) {
   const [url, setUrl] = useState('')
   const [error, setError] = useState('')
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
 
-    if (!url.trim()) {
+    const trimmedUrl = url.trim()
+
+    if (!trimmedUrl) {
       setError('Cole a URL de um vídeo do YouTube para continuar.')
       return
     }
 
     setError('')
-    onExtract(url)
+    await onExtract(trimmedUrl)
+  }
+
+  function handleChange(event) {
+    setUrl(event.target.value)
+    if (error) {
+      setError('')
+    }
   }
 
   return (
@@ -30,13 +39,20 @@ function TranscriptForm({ onExtract, isProcessing }) {
           autoComplete="off"
           placeholder="Cole a URL do vídeo do YouTube"
           value={url}
-          onChange={(event) => setUrl(event.target.value)}
+          onChange={handleChange}
           aria-invalid={Boolean(error)}
           aria-describedby={error ? 'youtube-url-error' : undefined}
-          disabled={isProcessing}
+          disabled={isLoading}
         />
-        <button type="submit" disabled={isProcessing} aria-busy={isProcessing}>
-          {isProcessing ? 'Extraindo legenda...' : 'Extrair legenda'}
+        <button type="submit" disabled={isLoading} aria-busy={isLoading}>
+          {isLoading ? (
+            <span className="transcript-form__loading">
+              <span className="transcript-form__spinner" aria-hidden="true" />
+              Extraindo legenda...
+            </span>
+          ) : (
+            'Extrair legenda'
+          )}
         </button>
       </div>
 

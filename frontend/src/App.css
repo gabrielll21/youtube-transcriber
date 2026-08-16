@@ -420,3 +420,49 @@
     flex: 1 1 0;
   }
 }
+
+
+.transcript-form__loading {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.transcript-form__spinner,
+.transcript-status__spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(148, 163, 184, 0.35);
+  border-top-color: #0f172a;
+  animation: spin 0.8s linear infinite;
+}
+
+.transcript-status {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: -8px;
+  padding: 0 10px;
+  color: #475569;
+  font-size: 0.95rem;
+}
+
+.transcript-status--error {
+  color: #b91c1c;
+}
+
+.transcript-result__feedback {
+  margin: 0;
+  color: #475569;
+  font-size: 0.95rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
