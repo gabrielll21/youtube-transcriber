@@ -68,10 +68,14 @@ def extract_transcript(url: str) -> TranscriptResult:
             "Este vídeo não possui legenda/transcrição disponível."
         ) from exc
     except CouldNotRetrieveTranscript as exc:
+        print(f"ERRO YOUTUBE TRANSCRIPT: {repr(exc)}", flush=True)
         raise TranscriptNotAvailableError(
             "Não foi possível recuperar a legenda deste vídeo."
         ) from exc
-    except Exception as exc:  # pragma: no cover - unexpected runtime failure
-        raise TranscriptExtractionError("Ocorreu um erro inesperado durante a extração.") from exc
+    except Exception as exc:
+        print(f"ERRO INESPERADO TRANSCRIPT: {repr(exc)}", flush=True)
+        raise TranscriptExtractionError(
+            "Ocorreu um erro inesperado durante a extração."
+        ) from exc
 
     return TranscriptResult(title=title, transcript=transcript)
